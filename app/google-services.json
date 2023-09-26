@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "820837013656",
+    "firebase_url": "https://final-project-app-bfe9a-default-rtdb.firebaseio.com",
+    "project_id": "final-project-app-bfe9a",
+    "storage_bucket": "final-project-app-bfe9a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820837013656:android:9b7a3d6c55cbd5eeeb58ed",
+        "android_client_info": {
+          "package_name": "com.example.kaachonjo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820837013656-399s584iaou7v4tbohoqp5k4hjjefp2c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAT9dg6d_liR3o_YVu-UaEOivLSqLezl0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820837013656-399s584iaou7v4tbohoqp5k4hjjefp2c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
