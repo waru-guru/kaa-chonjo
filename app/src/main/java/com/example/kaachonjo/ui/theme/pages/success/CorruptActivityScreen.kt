@@ -1,6 +1,10 @@
 package com.example.kaachonjo.ui.theme.pages.success
 
+import android.Manifest
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
 import android.provider.MediaStore
@@ -42,6 +46,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.kaachonjo.R
@@ -181,7 +187,16 @@ fun ImagePicker(modifier: Modifier, context: Context, navController: NavHostCont
                 onClick = {
                     var criminalRepository = CriminalRepository(navController,context)
                     criminalRepository.saveUserInputWithImage(description,imageUri!!)
-                    navController.navigate(ROUTE_SUCCESS)
+                    val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "+254115242320"))
+                    if (ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)
+                        != PackageManager.PERMISSION_GRANTED
+                    ) { ActivityCompat.requestPermissions(
+                        Activity(), arrayOf<String>(Manifest.permission.CALL_PHONE), 1
+                    )
+                        navController.navigate(ROUTE_SUCCESS)
+                    } else {
+                        context.startActivity(intent)
+                    }
 
                 },
                 modifier = Modifier.fillMaxWidth(),

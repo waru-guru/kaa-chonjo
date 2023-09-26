@@ -1,6 +1,11 @@
 package com.example.kaachonjo.ui.theme.pages.success
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +35,7 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -37,6 +43,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.kaachonjo.R
@@ -133,6 +141,7 @@ fun ContentSection(color: Color = Top) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DescriptionSection(navController:NavHostController) {
+    var context = LocalContext.current
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -156,8 +165,16 @@ fun DescriptionSection(navController:NavHostController) {
                 )
                 Button(
                     onClick = {
-
-                        navController.navigate(ROUTE_SUCCESS)
+                        val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "+254115242320"))
+                        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)
+                            != PackageManager.PERMISSION_GRANTED
+                        ) { ActivityCompat.requestPermissions(
+                            Activity(), arrayOf<String>(Manifest.permission.CALL_PHONE), 1
+                        )
+                            navController.navigate(ROUTE_SUCCESS)
+                        } else {
+                            context.startActivity(intent)
+                        }
 
                     },
                     colors = ButtonDefaults.buttonColors(Others),

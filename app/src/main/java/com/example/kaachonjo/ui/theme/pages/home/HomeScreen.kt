@@ -159,6 +159,7 @@ var context = LocalContext.current
                   ) { ActivityCompat.requestPermissions(
                           Activity(), arrayOf<String>(Manifest.permission.CALL_PHONE), 1
                       )
+                      navController.navigate(ROUTE_SUCCESS)
                   } else {
                       context.startActivity(intent)
                   }

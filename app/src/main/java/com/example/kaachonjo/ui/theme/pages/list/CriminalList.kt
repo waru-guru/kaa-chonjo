@@ -1,7 +1,13 @@
 package com.example.kaachonjo.ui.theme.pages.list
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +15,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -35,6 +42,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
@@ -42,6 +51,7 @@ import com.example.kaachonjo.data.AuthRepository
 import com.example.kaachonjo.data.CriminalRepository
 import com.example.kaachonjo.models.Criminal
 import com.example.kaachonjo.navigation.ROUTE_LOGIN
+import com.example.kaachonjo.navigation.ROUTE_SUCCESS
 import com.example.kaachonjo.navigation.ROUTE_UPDATE_CRIMINAL_LIST
 import com.example.kaachonjo.ui.theme.Backg
 import com.example.kaachonjo.ui.theme.KaaChonjoTheme
@@ -82,12 +92,12 @@ fun CriminalListScreen(navController: NavHostController) {
 
            Row(
                verticalAlignment = Alignment.CenterVertically,
-               modifier = Modifier.background(Top)
+               modifier = Modifier.fillMaxWidth()
            ){
                Text(text = "Which one did you spot?",
                    fontSize = 30.sp,
                    fontFamily = amaticFontFamily,
-                   color = Color.Black
+                   color = Color.White
                )
            }
 
@@ -123,7 +133,9 @@ fun CriminalItem(name:String, description:String, imageUrl:String, id:String,
             .fillMaxWidth()
             .clip(RoundedCornerShape(10.dp))
     ){
-        Row {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .background(Top)) {
             Image(
                 painter = rememberAsyncImagePainter(imageUrl),
                 contentDescription = null,
@@ -142,9 +154,11 @@ fun CriminalItem(name:String, description:String, imageUrl:String, id:String,
                 Text(text = description, fontSize = 16.sp, color = Color.White)
 
                 Row(
-                    horizontalArrangement = Arrangement.End,
-                    verticalAlignment = Alignment.Bottom
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
+
                     IconButton(
                         onClick = {
                             var authRepository = AuthRepository(navController, context)
@@ -186,6 +200,26 @@ fun CriminalItem(name:String, description:String, imageUrl:String, id:String,
                         )
 
                     }
+                    Text(
+                        text = "Report",
+                        color = Color.White,
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(Backg)
+                            .padding(10.dp,5.dp)
+                            .clickable {
+                                val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "+254115242320"))
+                                if (ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)
+                                    != PackageManager.PERMISSION_GRANTED
+                                ) { ActivityCompat.requestPermissions(
+                                    Activity(), arrayOf<String>(Manifest.permission.CALL_PHONE), 1
+                                )
+                                    navController.navigate(ROUTE_SUCCESS)
+                                } else {
+                                    context.startActivity(intent)
+                                }
+                            }
+                    )
 
                 }
             }
