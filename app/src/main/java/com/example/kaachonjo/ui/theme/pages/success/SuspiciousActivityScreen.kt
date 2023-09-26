@@ -65,6 +65,7 @@ fun SuspiciousActivityScreen(navController: NavHostController) {
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Backg)
+        .verticalScroll(rememberScrollState())
     ) {
         Column {
             GreetingSection()
@@ -89,7 +90,6 @@ fun GreetingSection() {
 
     ) {
         Column(
-            modifier = Modifier.verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Center
         ) {
             Text(text = "Notice anything.... WEIRD?!",

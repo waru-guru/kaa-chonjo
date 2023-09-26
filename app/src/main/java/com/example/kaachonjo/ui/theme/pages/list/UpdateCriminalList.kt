@@ -25,6 +25,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -64,70 +65,77 @@ import com.google.firebase.database.ValueEventListener
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UpdateCriminalListScreen(navController:NavHostController, id:String) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding()
-            .verticalScroll(rememberScrollState())
-            .background(Backg),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(18.dp, alignment = Alignment.CenterVertically)) {
+   Surface(
+       modifier = Modifier
+           .fillMaxSize()
+           .background(Backg)
+           .padding(50.dp)
+   ) {
+       Column(
+           modifier = Modifier
+               .fillMaxSize()
+               .padding()
+               .verticalScroll(rememberScrollState())
+               .background(Backg),
+           horizontalAlignment = Alignment.CenterHorizontally,
+           verticalArrangement = Arrangement.spacedBy(18.dp, alignment = Alignment.CenterVertically)) {
 
-        var context = LocalContext.current
-        var name by remember { mutableStateOf("") }
-        var description by remember { mutableStateOf("") }
-        var imageUrl by remember { mutableStateOf("") }
+           var context = LocalContext.current
+           var name by remember { mutableStateOf("") }
+           var description by remember { mutableStateOf("") }
+           var imageUrl by remember { mutableStateOf("") }
 
-        var currentDataRef = FirebaseDatabase.getInstance().getReference()
-            .child("Criminals/$id")
-        currentDataRef.addValueEventListener(object: ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                var criminal = snapshot.getValue(Criminal::class.java)
-                name = criminal!!.name
-                description = criminal!!.description
-                imageUrl = criminal!!.imageUrl
-            }
+           var currentDataRef = FirebaseDatabase.getInstance().getReference()
+               .child("Criminals/$id")
+           currentDataRef.addValueEventListener(object: ValueEventListener {
+               override fun onDataChange(snapshot: DataSnapshot) {
+                   var criminal = snapshot.getValue(Criminal::class.java)
+                   name = criminal!!.name
+                   description = criminal!!.description
+                   imageUrl = criminal!!.imageUrl
+               }
 
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
-            }
-        })
+               override fun onCancelled(error: DatabaseError) {
+                   Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
+               }
+           })
 
-        Text(
-            text = "Update Criminal Entry",
-            fontSize = 30.sp,
-            fontFamily = luckiestGuyFamily,
-            color = Others,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .padding(bottom = 30.dp)
-        )
+           Text(
+               text = "Update Criminal Entry",
+               fontSize = 30.sp,
+               fontFamily = luckiestGuyFamily,
+               color = Others,
+               textAlign = TextAlign.Center,
+               modifier = Modifier
+                   .padding(bottom = 30.dp)
+           )
 
-        var criminalName by remember { mutableStateOf(TextFieldValue("")) }
-        var criminalDescription by remember { mutableStateOf(TextFieldValue("")) }
-        var criminalPic by remember { mutableStateOf(TextFieldValue("")) }
-
-
-        TextField(
-            value = criminalName,
-            onValueChange = { criminalName = it },
-            label = { Text(text = "Enter criminal name *") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            modifier = Modifier.fillMaxWidth()
-        )
+           var criminalName by remember { mutableStateOf(TextFieldValue("")) }
+           var criminalDescription by remember { mutableStateOf(TextFieldValue("")) }
+           var criminalPic by remember { mutableStateOf(TextFieldValue("")) }
 
 
-        TextField(
-            value = criminalDescription,
-            onValueChange = { criminalDescription = it },
-            label = { Text(text = "Enter criminal description *") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            modifier = Modifier.fillMaxWidth()
-        )
+           TextField(
+               value = criminalName,
+               onValueChange = { criminalName = it },
+               label = { Text(text = "Enter criminal name *") },
+               keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+               modifier = Modifier.fillMaxWidth()
+           )
 
-        UpdateImagePicker(modifier = Modifier,context,navController,criminalName.text.trim(),criminalDescription.text.trim(), id)
 
-    }
+           TextField(
+               value = criminalDescription,
+               onValueChange = { criminalDescription = it },
+               label = { Text(text = "Enter criminal description *") },
+               keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+               modifier = Modifier.fillMaxWidth()
+           )
+
+           UpdateImagePicker(modifier = Modifier,context,navController,criminalName.text.trim(),criminalDescription.text.trim(), id)
+
+       }
+   }
 }
 
 

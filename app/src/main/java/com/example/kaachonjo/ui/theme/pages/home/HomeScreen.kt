@@ -53,6 +53,7 @@ fun HomeScreen(navController:NavHostController) {
     Box(modifier = Modifier
         .background(Backg)
         .fillMaxSize()
+        .verticalScroll(rememberScrollState())
     ) {
         Column {
             GreetingSection()
@@ -135,7 +136,7 @@ fun ReportSectionStart(
 @Composable
 fun Reports(navController: NavHostController) {
 var context = LocalContext.current
-   Column(Modifier.verticalScroll(rememberScrollState())) {
+   Column{
       Row(
           modifier = Modifier
               .padding(top = 20.dp)
