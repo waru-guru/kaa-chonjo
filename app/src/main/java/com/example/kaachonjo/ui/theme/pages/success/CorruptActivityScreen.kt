@@ -22,7 +22,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -66,7 +68,7 @@ fun CorruptActivityScreen(navController:NavHostController) {
             .fillMaxSize()
             .background(Backg)
     ) {
-        Column {
+        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
             IntroSection()
             CorruptionSection(navController = navController)
 
@@ -185,18 +187,11 @@ fun ImagePicker(modifier: Modifier, context: Context, navController: NavHostCont
 
             Button(
                 onClick = {
-                    var criminalRepository = CriminalRepository(navController,context)
-                    criminalRepository.saveUserInputWithImage(description,imageUri!!)
-                    val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "+254115242320"))
-                    if (ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)
-                        != PackageManager.PERMISSION_GRANTED
-                    ) { ActivityCompat.requestPermissions(
-                        Activity(), arrayOf<String>(Manifest.permission.CALL_PHONE), 1
-                    )
-                        navController.navigate(ROUTE_SUCCESS)
-                    } else {
-                        context.startActivity(intent)
-                    }
+                    val uri = Uri.parse("smsto:0115242320")
+                    val intent = Intent(Intent.ACTION_SENDTO, uri)
+                    intent.putExtra("sms_body", "A corrupt activity is currently taking place. Please contact this number to get more information.")
+                    context.startActivity(intent)
+                    navController.navigate(ROUTE_SUCCESS)
 
                 },
                 modifier = Modifier.fillMaxWidth(),

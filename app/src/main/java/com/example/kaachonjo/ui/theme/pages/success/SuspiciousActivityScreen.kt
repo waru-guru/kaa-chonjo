@@ -1,6 +1,7 @@
 package com.example.kaachonjo.ui.theme.pages.success
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -16,8 +17,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -86,7 +89,8 @@ fun GreetingSection() {
 
     ) {
         Column(
-            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.Center
         ) {
             Text(text = "Notice anything.... WEIRD?!",
                 fontWeight = FontWeight.ExtraBold,
@@ -138,6 +142,7 @@ fun ContentSection(color: Color = Top) {
     
 }
 
+@SuppressLint("SuspiciousIndentation")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DescriptionSection(navController:NavHostController) {
@@ -151,6 +156,7 @@ fun DescriptionSection(navController:NavHostController) {
             var userDescription by remember { mutableStateOf(TextFieldValue("")) }
             val maxLength = 2000
             Column(
+                modifier = Modifier.verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(18.dp, alignment = Alignment.CenterVertically)){
                 TextField(
                     value = userDescription,
@@ -165,16 +171,11 @@ fun DescriptionSection(navController:NavHostController) {
                 )
                 Button(
                     onClick = {
-                        val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "+254115242320"))
-                        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)
-                            != PackageManager.PERMISSION_GRANTED
-                        ) { ActivityCompat.requestPermissions(
-                            Activity(), arrayOf<String>(Manifest.permission.CALL_PHONE), 1
-                        )
-                            navController.navigate(ROUTE_SUCCESS)
-                        } else {
-                            context.startActivity(intent)
-                        }
+                        val uri = Uri.parse("smsto:0115242320")
+                        val intent = Intent(Intent.ACTION_SENDTO, uri)
+                        intent.putExtra("sms_body", "Some suspicious activity currently taking place. Please contact this number to get more information.")
+                        context.startActivity(intent)
+                        navController.navigate(ROUTE_SUCCESS)
 
                     },
                     colors = ButtonDefaults.buttonColors(Others),

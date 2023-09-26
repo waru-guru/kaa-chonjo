@@ -1,9 +1,6 @@
 package com.example.kaachonjo.ui.theme.pages.home
 
-import android.Manifest
-import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.net.Uri
 import androidx.compose.foundation.background
@@ -34,8 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.kaachonjo.navigation.ROUTE_CORRUPT_ACTIVITY
@@ -153,16 +149,11 @@ var context = LocalContext.current
                   .height(200.dp),
               colors = CardDefaults.cardColors(Top.copy(0.5f)),
               onClick = {
-                  val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "+254115242320"))
-                  if (ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)
-                      != PackageManager.PERMISSION_GRANTED
-                  ) { ActivityCompat.requestPermissions(
-                          Activity(), arrayOf<String>(Manifest.permission.CALL_PHONE), 1
-                      )
-                      navController.navigate(ROUTE_SUCCESS)
-                  } else {
-                      context.startActivity(intent)
-                  }
+                  val uri = Uri.parse("smsto:0115242320")
+                  val intent = Intent(Intent.ACTION_SENDTO, uri)
+                  intent.putExtra("sms_body", "A crime is taking currently taking place. Please contact this number to get more information.")
+                  context.startActivity(intent)
+                  navController.navigate(ROUTE_SUCCESS)
               })
 
 

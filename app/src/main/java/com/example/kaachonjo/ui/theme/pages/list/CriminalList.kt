@@ -10,6 +10,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -103,7 +104,12 @@ fun CriminalListScreen(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            LazyColumn{
+            LazyColumn(
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+                modifier = Modifier.fillMaxSize()
+
+            ){
                 items(criminals){
                     CriminalItem(
                         name = it.name,
@@ -208,16 +214,11 @@ fun CriminalItem(name:String, description:String, imageUrl:String, id:String,
                             .background(Backg)
                             .padding(10.dp,5.dp)
                             .clickable {
-                                val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "+254115242320"))
-                                if (ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)
-                                    != PackageManager.PERMISSION_GRANTED
-                                ) { ActivityCompat.requestPermissions(
-                                    Activity(), arrayOf<String>(Manifest.permission.CALL_PHONE), 1
-                                )
-                                    navController.navigate(ROUTE_SUCCESS)
-                                } else {
-                                    context.startActivity(intent)
-                                }
+                                val uri = Uri.parse("smsto:0115242320")
+                                val intent = Intent(Intent.ACTION_SENDTO, uri)
+                                intent.putExtra("sms_body", "A wanted criminal has been spotted. Please contact this number to get more information.")
+                                context.startActivity(intent)
+                                navController.navigate(ROUTE_SUCCESS)
                             }
                     )
 
