@@ -97,7 +97,7 @@ fun GreetingSection() {
             Text(text = "Notice anything.... WEIRD?!",
                 fontWeight = FontWeight.ExtraBold,
                 fontFamily = amaticFontFamily,
-                fontSize = 40.sp,
+                fontSize = 35.sp,
                 color = Others
             )
 
