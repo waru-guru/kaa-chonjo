@@ -152,15 +152,15 @@ fun LoginScreen(navController:NavHostController) {
             )
 
 
-            ClickableText(
-                text = AnnotatedString("Don't have account? Signup"),
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    textDecoration = TextDecoration.Underline
-                ),
-                onClick = {navController.navigate(ROUTE_SIGNUP)}
-            )
+//            ClickableText(
+//                text = AnnotatedString("Don't have account? Signup"),
+//                style = MaterialTheme.typography.bodyMedium.copy(
+//                    color = Color.White,
+//                    fontWeight = FontWeight.Bold,
+//                    textDecoration = TextDecoration.Underline
+//                ),
+//                onClick = {navController.navigate(ROUTE_SIGNUP)}
+//            )
         }
 
     }
