@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -62,10 +63,11 @@ import com.example.kaachonjo.ui.theme.luckiestGuyFamily
 
 @Composable
 fun SuspiciousActivityScreen(navController: NavHostController) {
+    val scrollState = rememberScrollState()
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Backg)
-        .verticalScroll(rememberScrollState())
+        .verticalScroll(state = scrollState)
     ) {
         Column {
             GreetingSection()
@@ -156,7 +158,6 @@ fun DescriptionSection(navController:NavHostController) {
             var userDescription by remember { mutableStateOf(TextFieldValue("")) }
             val maxLength = 2000
             Column(
-                modifier = Modifier.verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(18.dp, alignment = Alignment.CenterVertically)){
                 TextField(
                     value = userDescription,
